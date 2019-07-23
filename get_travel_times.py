@@ -24,7 +24,6 @@ def get_travel_times(main_from_date,main_to_date,from_time,to_time,from_stop,to_
         from_date_time = datetime.strptime(str(str(single_date.strftime("%d.%m.%Y"))+' '+from_time), "%d.%m.%Y %H:%M:%S")
         to_date_time = datetime.strptime(str(str(single_date.strftime("%d.%m.%Y"))+' '+to_time), "%d.%m.%Y %H:%M:%S")
 
-        pattern = '%d.%m.%Y %H:%M:%S'
         from_date_time_epoch =int(from_date_time.timestamp())
         to_date_time_epoch =int(to_date_time.timestamp())
 
