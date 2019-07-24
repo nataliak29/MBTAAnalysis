@@ -9,7 +9,7 @@ import re
 # the function returns pandas table
 
 
-def get_routes_names():
+def get_route_ids():
     # access private api key
     with open('C:/Python37/MBTA/config.json') as json_data:
         config = json.load(json_data,)
@@ -24,12 +24,11 @@ def get_routes_names():
 
     # create empty dataframe
     routeNames = pd.DataFrame(
-        columns=['id', 'name', 'description', 'firstStop', 'lastStop'])
+        columns=['routeID', 'routeType', 'firstStop', 'lastStop'])
 
     # save data from json file into the dataframe
     for i in range(len(js['data'])):
         routeID = js['data'][i]['id']
-        routeName = js['data'][i]['attributes']['long_name']
         description = js['data'][i]['attributes']['description']
         firstStop = js['data'][i]['attributes']['direction_destinations'][0]
         lastStop = js['data'][i]['attributes']['direction_destinations'][1]
@@ -44,7 +43,6 @@ def get_routes_names():
             # record 1st first stop
             routeNames.loc[len(routeNames)] = ([
                 routeID,
-                routeName,
                 description,
                 firstStop[0:orLocation],
                 lastStop
@@ -53,7 +51,6 @@ def get_routes_names():
             # record 2nd first stop
             routeNames.loc[len(routeNames)] = ([
                 routeID,
-                routeName,
                 description,
                 firstStop[orLocation+4:],
                 lastStop
@@ -65,7 +62,6 @@ def get_routes_names():
             # record 1st last stop
             routeNames.loc[len(routeNames)] = ([
                 routeID,
-                routeName,
                 description,
                 firstStop,
                 lastStop[0:orLocation]
@@ -74,7 +70,6 @@ def get_routes_names():
             # record 2nd last stop
             routeNames.loc[len(routeNames)] = ([
                 routeID,
-                routeName,
                 description,
                 firstStop,
                 lastStop[orLocation+4:]
@@ -87,7 +82,6 @@ def get_routes_names():
             # record 1st first stop and 1st last stop
             routeNames.loc[len(routeNames)] = ([
                 routeID,
-                routeName,
                 description,
                 firstStop[0:orLocationFirst],
                 lastStop[0:orLocationLast]
@@ -96,7 +90,6 @@ def get_routes_names():
             # record 2nd first stop and 2nd last stop
             routeNames.loc[len(routeNames)] = ([
                 routeID,
-                routeName,
                 description,
                 firstStop[orLocationFirst+4:],
                 lastStop[orLocationLast+4:]
@@ -105,7 +98,6 @@ def get_routes_names():
             # record 1st first stop and 2nd last stop
             routeNames.loc[len(routeNames)] = ([
                 routeID,
-                routeName,
                 description,
                 firstStop[0:orLocationFirst],
                 lastStop[orLocationLast+4:]
@@ -114,7 +106,6 @@ def get_routes_names():
             # record 2nd first stop and 1st last stop
             routeNames.loc[len(routeNames)] = ([
                 routeID,
-                routeName,
                 description,
                 firstStop[orLocationFirst+4:],
                 lastStop[0:orLocationLast]
@@ -124,13 +115,9 @@ def get_routes_names():
         else:
             routeNames.loc[len(routeNames)] = ([
                 routeID,
-                routeName,
                 description,
                 firstStop,
                 lastStop
             ])
 
     return routeNames
-
-
-# print(get_routes_names())

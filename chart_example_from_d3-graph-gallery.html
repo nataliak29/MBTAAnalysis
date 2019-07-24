@@ -10,9 +10,9 @@
 
 <script>
   // set the dimensions and margins of the graph
-  var margin = { top: 60, right: 30, bottom: 20, left: 110 },
-    width = 460 - margin.left - margin.right,
-    height = 400 - margin.top - margin.bottom;
+  var margin = { top: 100, right: 100, bottom: 20, left: 100 },
+    width = 1500 - margin.left - margin.right,
+    height = 600 - margin.top - margin.bottom;
 
   // append the svg object to the body of the page
   var svg = d3
@@ -40,6 +40,14 @@
         .append("g")
         .attr("transform", "translate(0," + height + ")")
         .call(d3.axisBottom(x));
+      svg
+        .append("text")
+        .attr(
+          "transform",
+          "translate(" + width / 2 + " ," + (height + margin.top + 20) + ")"
+        )
+        .style("text-anchor", "middle")
+        .text("Date");
 
       // Create a Y scale for densities
       var y = d3
@@ -54,6 +62,14 @@
         .range([0, height])
         .paddingInner(1);
       svg.append("g").call(d3.axisLeft(yName));
+      svg
+        .append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("y", 0 - margin.left)
+        .attr("x", 0 - height / 2)
+        .attr("dy", "1em")
+        .style("text-anchor", "middle")
+        .text("MBTA Commute Rail Line");
 
       // Compute kernel density estimation for each column:
       var kde = kernelDensityEstimator(kernelEpanechnikov(7), x.ticks(40)); // increase this 40 for more accurate density.
@@ -80,7 +96,7 @@
         .datum(function(d) {
           return d.density;
         })
-        .attr("fill", "#69b3a2")
+        .attr("fill", "#A9CCE3")
         .attr("stroke", "#000")
         .attr("stroke-width", 1)
         .attr(

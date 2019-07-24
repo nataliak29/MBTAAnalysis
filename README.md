@@ -8,3 +8,5 @@ https://www.mbta.com/developers/mbta-performance
 
 To get private API key:
 https://api-v3.mbta.com/
+
+https://github.com/google/transit/blob/master/gtfs/spec/en/reference.md
