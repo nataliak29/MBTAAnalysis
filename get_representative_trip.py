@@ -24,18 +24,22 @@ def get_representative_trip(routeID):
     js = json.loads(data)
 
     for i in range(len(js['data'])):
-        # only typical trips and only outbound tripe (from the city to suburbs)
-        if js['data'][i]['attributes']['typicality'] == 1 and js['data'][i]['attributes']['direction_id'] == 0:
-            routeID = js['data'][i]['relationships']['route']['data']['id']
-            name = js['data'][i]['attributes']['name']
-            repesentativeTripID = js['data'][i]['relationships']['representative_trip']['data']['id']
-            # print(routeID, name, desc)
-            routePatterns.loc[len(routePatterns)] = ([
-                routeID,
-                name,
-                repesentativeTripID
-            ])
+        try:
+            # only typical trips and only outbound tripe (from the city to suburbs)
+            if js['data'][i]['attributes']['typicality'] == 1 and js['data'][i]['attributes']['direction_id'] == 0 and js['data'][i]['relationships']['route']['data']['id'] == routeID:
+                routeID = js['data'][i]['relationships']['route']['data']['id']
+                name = js['data'][i]['attributes']['name']
+                repesentativeTripID = js['data'][i]['relationships']['representative_trip']['data']['id']
+                # print(routeID, name, desc)
+                routePatterns.loc[len(routePatterns)] = ([
+                    routeID,
+                    name,
+                    repesentativeTripID
+                ])
 
-        else:
+        except:
             continue
-    return routePatterns[routePatterns.iloc[:, 0] == routeID]
+    return routePatterns
+
+
+# print(get_representative_trip('CR-Foxboro'))

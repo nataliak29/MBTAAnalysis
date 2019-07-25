@@ -24,91 +24,91 @@ def get_route_ids():
 
     # create empty dataframe
     routeNames = pd.DataFrame(
-        columns=['routeID', 'routeType', 'firstStop', 'lastStop'])
+        columns=['routeID', 'routeType', 'fromStop', 'toStop'])
 
     # save data from json file into the dataframe
     for i in range(len(js['data'])):
         routeID = js['data'][i]['id']
         description = js['data'][i]['attributes']['description']
-        firstStop = js['data'][i]['attributes']['direction_destinations'][0]
-        lastStop = js['data'][i]['attributes']['direction_destinations'][1]
+        fromStop = js['data'][i]['attributes']['direction_destinations'][1]
+        toStop = js['data'][i]['attributes']['direction_destinations'][0]
 
         # some of the routes have multiple destinations, they are recorded in the direction_destination field with "or" conjunction
         # every first stop has to be saved separately with respective last stop
 
         # case 1. multiple first stops, one last stop
-        if ' or ' in firstStop and ' or ' not in lastStop:
-            orLocation = firstStop.find(' or ')
+        if ' or ' in fromStop and ' or ' not in toStop:
+            orLocation = fromStop.find(' or ')
 
             # record 1st first stop
             routeNames.loc[len(routeNames)] = ([
                 routeID,
                 description,
-                firstStop[0:orLocation],
-                lastStop
+                fromStop[0:orLocation],
+                toStop
             ])
 
             # record 2nd first stop
             routeNames.loc[len(routeNames)] = ([
                 routeID,
                 description,
-                firstStop[orLocation+4:],
-                lastStop
+                fromStop[orLocation+4:],
+                toStop
             ])
         # case 2. one first stops, multiple last stops
-        elif ' or ' not in firstStop and ' or ' in lastStop:
-            orLocation = lastStop.find(' or ')
+        elif ' or ' not in fromStop and ' or ' in toStop:
+            orLocation = toStop.find(' or ')
 
             # record 1st last stop
             routeNames.loc[len(routeNames)] = ([
                 routeID,
                 description,
-                firstStop,
-                lastStop[0:orLocation]
+                fromStop,
+                toStop[0:orLocation]
             ])
 
             # record 2nd last stop
             routeNames.loc[len(routeNames)] = ([
                 routeID,
                 description,
-                firstStop,
-                lastStop[orLocation+4:]
+                fromStop,
+                toStop[orLocation+4:]
             ])
         # case 3. multiple first stops, multiple last stops
-        elif ' or ' in firstStop and ' or ' in lastStop:
-            orLocationFirst = firstStop.find(' or ')
-            orLocationLast = lastStop.find(' or ')
+        elif ' or ' in fromStop and ' or ' in toStop:
+            orLocationFirst = fromStop.find(' or ')
+            orLocationLast = toStop.find(' or ')
 
             # record 1st first stop and 1st last stop
             routeNames.loc[len(routeNames)] = ([
                 routeID,
                 description,
-                firstStop[0:orLocationFirst],
-                lastStop[0:orLocationLast]
+                fromStop[0:orLocationFirst],
+                toStop[0:orLocationLast]
             ])
 
             # record 2nd first stop and 2nd last stop
             routeNames.loc[len(routeNames)] = ([
                 routeID,
                 description,
-                firstStop[orLocationFirst+4:],
-                lastStop[orLocationLast+4:]
+                fromStop[orLocationFirst+4:],
+                toStop[orLocationLast+4:]
             ])
 
             # record 1st first stop and 2nd last stop
             routeNames.loc[len(routeNames)] = ([
                 routeID,
                 description,
-                firstStop[0:orLocationFirst],
-                lastStop[orLocationLast+4:]
+                fromStop[0:orLocationFirst],
+                toStop[orLocationLast+4:]
             ])
 
             # record 2nd first stop and 1st last stop
             routeNames.loc[len(routeNames)] = ([
                 routeID,
                 description,
-                firstStop[orLocationFirst+4:],
-                lastStop[0:orLocationLast]
+                fromStop[orLocationFirst+4:],
+                toStop[0:orLocationLast]
             ])
 
         # case 4. one first stop, one last stop
@@ -116,8 +116,14 @@ def get_route_ids():
             routeNames.loc[len(routeNames)] = ([
                 routeID,
                 description,
-                firstStop,
-                lastStop
+                fromStop,
+                toStop
             ])
 
+        routeNames = routeNames[(routeNames.fromStop == 'South Station') | (
+            routeNames.fromStop == 'North Station')]
+
     return routeNames
+
+
+print(get_route_ids())

@@ -1,0 +1,14 @@
+routeID,tripID,stopID,stopSequence,arrivalTime,departureTime
+CR-Franklin,CR-Weekday-Spring-19-701,South Station,1,2019-07-25T03:50:00-04:00,2019-07-25T03:50:00-04:00
+CR-Franklin,CR-Weekday-Spring-19-701,Norwood Central,2,2019-07-25T04:12:00-04:00,2019-07-25T04:12:00-04:00
+CR-Franklin,CR-Weekday-Spring-19-701,Walpole,3,2019-07-25T04:18:00-04:00,2019-07-25T04:18:00-04:00
+CR-Franklin,CR-Weekday-Spring-19-701,Franklin,4,2019-07-25T04:30:00-04:00,2019-07-25T04:30:00-04:00
+CR-Franklin,CR-Weekday-Spring-19-701,Forge Park / 495,5,2019-07-25T04:40:00-04:00,2019-07-25T04:40:00-04:00
+CR-Haverhill,CR-Weekday-Spring-19-285,North Station,1,2019-07-25T06:43:00-04:00,2019-07-25T06:43:00-04:00
+CR-Haverhill,CR-Weekday-Spring-19-285,Malden Center,2,2019-07-25T06:54:00-04:00,2019-07-25T06:54:00-04:00
+CR-Haverhill,CR-Weekday-Spring-19-285,Wyoming Hill,3,2019-07-25T06:57:00-04:00,2019-07-25T06:57:00-04:00
+CR-Haverhill,CR-Weekday-Spring-19-285,Melrose Cedar Park,4,2019-07-25T06:59:00-04:00,2019-07-25T06:59:00-04:00
+CR-Haverhill,CR-Weekday-Spring-19-285,Melrose Highlands,5,2019-07-25T07:02:00-04:00,2019-07-25T07:02:00-04:00
+CR-Haverhill,CR-Weekday-Spring-19-285,Greenwood,6,2019-07-25T07:05:00-04:00,2019-07-25T07:05:00-04:00
+CR-Haverhill,CR-Weekday-Spring-19-285,Wakefield,7,2019-07-25T07:09:00-04:00,2019-07-25T07:09:00-04:00
+CR-Haverhill,CR-Weekday-Spring-19-285,Reading,8,2019-07-25T07:15:00-04:00,2019-07-25T07:15:00-04:00

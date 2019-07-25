@@ -5,7 +5,7 @@ import os
 import sys
 
 
-def get_scheduled_travel_times(tripID):
+def get_schedule_for_trip(tripID):
     # access private api key
     with open('C:/Python37/MBTA/config.json') as json_data:
         # private api key

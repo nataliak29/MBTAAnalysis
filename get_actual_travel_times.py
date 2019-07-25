@@ -13,7 +13,7 @@ from datetime import datetime, timedelta, date
 def get_actual_travel_times(main_from_date, main_to_date, from_time, to_time, from_stop, to_stop):
 
     traveltime = pd.DataFrame(
-        columns=['routeID', 'fromStop', 'toStop', 'departure', 'arrival', 'travelTimeMin'])
+        columns=['routeID', 'fromStop', 'toStop', 'departure', 'arrival', 'actualTravelTimeMin'])
 
     with open('C:/Python37/MBTA/config.json') as json_data:
         config = json.load(json_data,)
