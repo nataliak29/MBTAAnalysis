@@ -3,9 +3,12 @@ import pandas as pd
 import requests
 import os
 import sys
+import urllib.request
+import urllib.parse
 
 
-def get_schedule_for_trip(tripID):
+def get_route_schedule(routeID, date, directionID=0, fromTime='05:00', toTime='23:00'):
+    # directionID =0 - outbound, directionID =1 - inbound,
     # access private api key
     with open('C:/Python37/MBTA/config.json') as json_data:
         # private api key
@@ -17,13 +20,22 @@ def get_schedule_for_trip(tripID):
     tripSchedule = pd.DataFrame(
         columns=['routeID',
                  'tripID',
+                 'date',
                  'stopID',
                  'stopSequence',
                  'arrivalTime',
                  'departureTime'])
 
     # get json with routes information
-    url = 'https://api-v3.mbta.com/schedules?filter%5Btrip%5D=' + str(tripID)
+    params = urllib.parse.urlencode({
+        "date": str(date),
+        "direction_id": str(directionID),
+        "route": str(routeID),
+        "min_time": str(fromTime),
+        "max_time": str(toTime)
+    })
+    url = 'https://api-v3.mbta.com/schedules?%s' % params
+
     response = requests.get(url, headers=headers)
     data = response.text
     js = json.loads(data)
@@ -40,6 +52,7 @@ def get_schedule_for_trip(tripID):
         tripSchedule.loc[len(tripSchedule)] = ([
             routeID,
             tripID,
+            date,
             stopID,
             stopSequence,
             arrivalTime,
@@ -48,3 +61,6 @@ def get_schedule_for_trip(tripID):
         ])
 
     return tripSchedule
+
+
+# print(get_route_schedule('CR-Fairmount', '2019-07-23', 0, '06:00', '22:00'))

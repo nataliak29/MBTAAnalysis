@@ -10,24 +10,25 @@ import time
 from datetime import datetime, timedelta, date
 
 
-def get_actual_travel_times(main_from_date, main_to_date, from_time, to_time, from_stop, to_stop):
+def get_actual_travel_times(routeID, main_from_date, main_to_date, from_time, to_time, from_stop, to_stop):
+    dateformat = '%Y-%m-%d'
 
     traveltime = pd.DataFrame(
-        columns=['routeID', 'fromStop', 'toStop', 'departure', 'arrival', 'actualTravelTimeMin'])
+        columns=['routeID', 'date', 'fromStop', 'toStop', 'departure', 'arrival', 'actualTravelTimeMin', 'benchmarkTravelTime'])
 
     with open('C:/Python37/MBTA/config.json') as json_data:
         config = json.load(json_data,)
     api_key = config['auth']['public_key']
 
-    numberOfDays = int((datetime.strptime(main_to_date, "%d.%m.%Y") -
-                        datetime.strptime(main_from_date, "%d.%m.%Y")).days)
+    numberOfDays = int((datetime.strptime(main_to_date, dateformat) -
+                        datetime.strptime(main_from_date, dateformat)).days)
     print('Retreiving travel time data for', numberOfDays, 'days...')
 
-    for single_date in (datetime.strptime(main_from_date, "%d.%m.%Y") + timedelta(n) for n in range(numberOfDays)):
+    for single_date in (datetime.strptime(main_from_date, dateformat) + timedelta(n) for n in range(numberOfDays)):
         from_date_time = datetime.strptime(
-            str(str(single_date.strftime("%d.%m.%Y"))+' '+from_time), "%d.%m.%Y %H:%M:%S")
+            str(str(single_date.strftime(dateformat))+' '+from_time), "%Y-%m-%d %H:%M:%S")
         to_date_time = datetime.strptime(
-            str(str(single_date.strftime("%d.%m.%Y"))+' '+to_time), "%d.%m.%Y %H:%M:%S")
+            str(str(single_date.strftime(dateformat))+' '+to_time), "%Y-%m-%d %H:%M:%S")
 
         from_date_time_epoch = int(from_date_time.timestamp())
         to_date_time_epoch = int(to_date_time.timestamp())
@@ -35,6 +36,7 @@ def get_actual_travel_times(main_from_date, main_to_date, from_time, to_time, fr
         params = urllib.parse.urlencode({
             "api_key": api_key,  # public api_key
             "format": 'json',
+            "route": routeID,
             "from_stop": from_stop,
             "to_stop":  to_stop,
             "from_datetime": from_date_time_epoch,
@@ -52,13 +54,16 @@ def get_actual_travel_times(main_from_date, main_to_date, from_time, to_time, fr
 
                 traveltime.loc[len(traveltime)] = ([
                     js['travel_times'][i]['route_id'],
+                    str(single_date.strftime("%m/%d/%Y")),
                     from_stop,
                     to_stop,
                     time.strftime(
-                        '%Y-%m-%d %H:%M:%S', time.localtime(int(js['travel_times'][i]['dep_dt']))),
+                        '%H:%M:%S', time.localtime(int(js['travel_times'][i]['dep_dt']))),
                     time.strftime(
-                        '%Y-%m-%d %H:%M:%S', time.localtime(int(js['travel_times'][i]['arr_dt']))),
+                        '%H:%M:%S', time.localtime(int(js['travel_times'][i]['arr_dt']))),
                     float(js['travel_times'][i]['travel_time_sec'])/60,
+                    float(js['travel_times'][i]
+                          ['benchmark_travel_time_sec'])/60,
 
                 ])
         except:
@@ -66,13 +71,18 @@ def get_actual_travel_times(main_from_date, main_to_date, from_time, to_time, fr
 
     return traveltime
 
+
 # # #
-# main_from_date='10.04.2019'
-# main_to_date = '21.07.2019'
-# from_time='16:00:00'
-# to_time='22:00:00'
-# fromStop='South Station'
-# toStop='Middleborough/Lakeville'
-# js=get_travel_times(main_from_date,main_to_date,from_time,to_time,fromStop,toStop)
-#
+# main_from_date = '22.07.2019'
+# main_to_date = '23.07.2019'
+# from_time = '06:00:00'
+# to_time = '22:00:00'
+# fromStop = 'South Station'
+# toStop = 'Readville'
+# routeID = 'CR-Fairmount'
+# # 'Haverhill'
+# js = get_actual_travel_times(routeID, main_from_date, main_to_date,
+#                              from_time, to_time, fromStop, toStop)
+# js.to_csv(
+#     'C:/Users/nkukushkina/Documents/GitHub/MBTAAnalysis/actualTraveltime.csv', index=False)
 # print(js)
