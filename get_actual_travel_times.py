@@ -46,6 +46,7 @@ def get_actual_travel_times(routeID, main_from_date, main_to_date, from_time, to
         url = 'http://realtime.mbta.com/developer/api/v2.1/traveltimes?%s' % params
 
         with urllib.request.urlopen(url) as f:
+            # print(url)
             data = f.read().decode('utf-8')
         js = json.loads(data)
         try:
@@ -54,7 +55,7 @@ def get_actual_travel_times(routeID, main_from_date, main_to_date, from_time, to
 
                 traveltime.loc[len(traveltime)] = ([
                     js['travel_times'][i]['route_id'],
-                    str(single_date.strftime("%m/%d/%Y")),
+                    str(single_date.strftime("%Y-%m-%d")),
                     from_stop,
                     to_stop,
                     time.strftime(
@@ -73,16 +74,16 @@ def get_actual_travel_times(routeID, main_from_date, main_to_date, from_time, to
 
 
 # # #
-# main_from_date = '22.07.2019'
-# main_to_date = '23.07.2019'
-# from_time = '06:00:00'
-# to_time = '22:00:00'
+# main_from_date = '2019-07-22'
+# main_to_date = '2019-07-24'
+# from_time = '01:00:00'
+# to_time = '19:00:00'
 # fromStop = 'South Station'
 # toStop = 'Readville'
 # routeID = 'CR-Fairmount'
 # # 'Haverhill'
 # js = get_actual_travel_times(routeID, main_from_date, main_to_date,
 #                              from_time, to_time, fromStop, toStop)
-# js.to_csv(
-#     'C:/Users/nkukushkina/Documents/GitHub/MBTAAnalysis/actualTraveltime.csv', index=False)
+# # js.to_csv(
+# #     'C:/Users/nkukushkina/Documents/GitHub/MBTAAnalysis/actualTraveltime.csv', index=False)
 # print(js)

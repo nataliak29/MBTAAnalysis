@@ -70,5 +70,12 @@ def get_scheduled_travel_time(routeID, main_from_date, main_to_date, from_time, 
     return sheduledTraveltime
 
 
+# main_from_date = '2019-07-22'
+# main_to_date = '2019-07-23'
+# from_time = '01:00'
+# to_time = '21:00'
+# routeID = 'CR-Fairmount'
+# directionID = 0
+
 # print(get_scheduled_travel_time(routeID, main_from_date,
 #                                 main_to_date, from_time, to_time, directionID))

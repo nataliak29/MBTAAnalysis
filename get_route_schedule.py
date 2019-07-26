@@ -63,4 +63,7 @@ def get_route_schedule(routeID, date, directionID=0, fromTime='05:00', toTime='2
     return tripSchedule
 
 
-# print(get_route_schedule('CR-Fairmount', '2019-07-23', 0, '06:00', '22:00'))
+# sc = get_route_schedule('CR-Fairmount', '2019-07-22', 0, '06:00', '22:00')
+# print(get_route_schedule('CR-Fairmount', '2019-07-22', 0, '06:00', '22:00'))
+# sc.to_csv(
+#     'C:/Users/nkukushkina/Documents/GitHub/MBTAAnalysis/sc.csv', index=False)
