@@ -4,12 +4,12 @@ import pandas as pd
 from datetime import datetime, timedelta, date
 
 
-main_from_date = '2019-07-22'
-main_to_date = '2019-07-24'
-from_time = '06:00'
-to_time = '22:00'
-routeID = 'CR-Fairmount'
-directionID = 0
+# main_from_date = '2019-07-22'
+# main_to_date = '2019-07-24'
+# from_time = '06:00'
+# to_time = '22:00'
+# routeID = 'CR-Fairmount'
+# directionID = 0
 
 
 def get_scheduled_travel_time(routeID, main_from_date, main_to_date, from_time, to_time, directionID):
@@ -25,7 +25,8 @@ def get_scheduled_travel_time(routeID, main_from_date, main_to_date, from_time, 
 
     numberOfDays = int((datetime.strptime(main_to_date, "%Y-%m-%d") -
                         datetime.strptime(main_from_date, "%Y-%m-%d")).days)
-    print('Retreiving scheduled travel time data for', numberOfDays, 'days...')
+    print('Retreiving scheduled travel time data for',
+          numberOfDays, 'days for', routeID, '...')
 
     for date_date in (datetime.strptime(main_from_date, "%Y-%m-%d") + timedelta(n) for n in range(numberOfDays)):
         date = str(date_date)[:10]
@@ -70,12 +71,17 @@ def get_scheduled_travel_time(routeID, main_from_date, main_to_date, from_time, 
     return sheduledTraveltime
 
 
-# main_from_date = '2019-07-22'
-# main_to_date = '2019-07-23'
+# main_from_date = '2019-06-22'
+# main_to_date = '2019-06-24'
 # from_time = '01:00'
-# to_time = '21:00'
+# to_time = '23:00'
 # routeID = 'CR-Fairmount'
 # directionID = 0
-
+# test = get_scheduled_travel_time(routeID, main_from_date,
+#                                  main_to_date, from_time, to_time, directionID)
 # print(get_scheduled_travel_time(routeID, main_from_date,
 #                                 main_to_date, from_time, to_time, directionID))
+
+
+# test.to_csv(
+#     'C:/Users/nkukushkina/Documents/GitHub/MBTAAnalysis/test.csv', index=False)

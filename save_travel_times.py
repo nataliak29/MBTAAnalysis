@@ -7,12 +7,14 @@ from datetime import datetime, timedelta, date
 print('Retreiving route IDs for MBTA Commuter Rails...')
 routes = get_route_ids()
 routes = routes[routes.iloc[:, 1] == "Commuter Rail"]
-routes = routes[(routes.iloc[:, 0] == "CR-Fairmount") |
-                (routes.iloc[:, 0] == 'CR-Haverhill')]
-# print(routes)
 
-main_from_date = '2019-07-22'
-main_to_date = '2019-07-24'
+
+# routes = routes[(routes.iloc[:, 0] == "CR-Fairmount") |
+#                 (routes.iloc[:, 0] == 'CR-Haverhill')]
+print(routes)
+
+main_from_date = '2019-07-19'
+main_to_date = '2019-07-31'
 from_time = '01:00'
 to_time = '23:00'
 # routeID = 'CR-Fairmount'
@@ -25,10 +27,12 @@ actualTravelTime = pd.DataFrame(
 
 for i in range(len(routes)):
     routeID = routes.iloc[i, 0]
-    scheduledTravelTime = scheduledTravelTime.append(get_scheduled_travel_time(routeID, main_from_date,
-                                                                               main_to_date, from_time, to_time, directionID))
+    try:
+        scheduledTravelTime = scheduledTravelTime.append(get_scheduled_travel_time(routeID, main_from_date,
+                                                                                   main_to_date, from_time, to_time, directionID))
 
-
+    except:
+        continue
 scheduledTravelTime.reset_index(inplace=True)
 for s in range(len(scheduledTravelTime)):
     scheduledTravelTime.loc[s,
@@ -68,12 +72,12 @@ actualTravelTime.to_csv(
 
 
 allTravelTime = actualTravelTime.merge(
-    right=scheduledTravelTime, left_on=['routeID', 'date', 'benchmarkTravelTime', 'departure_hour'], right_on=['routeID', 'date', 'scheduledTravelTime', 'departure_hour'])
+    right=scheduledTravelTime, left_on=['routeID', 'date', 'departure_hour', 'fromStop'], right_on=['routeID', 'date', 'departure_hour', 'fromStop'])
 
 for at in range(len(allTravelTime)):
     allTravelTime.loc[at,
-                      'time_lookup'] = (datetime.strptime(
-                          allTravelTime.loc[at, 'departure_x'], '%H:%M:%S') - datetime.strptime(allTravelTime.loc[at, 'departure_y'], '%H:%M:%S')).total_seconds()
+                      'time_lookup'] = abs((datetime.strptime(
+                          allTravelTime.loc[at, 'departure_x'], '%H:%M:%S') - datetime.strptime(allTravelTime.loc[at, 'departure_y'], '%H:%M:%S')).total_seconds())
 
 allTravelTime['min_time_lookup'] = allTravelTime.groupby(['routeID', 'date', 'departure_x', 'toStop_x'])[
     'time_lookup'].transform(min)
@@ -81,8 +85,28 @@ allTravelTime['min_time_lookup'] = allTravelTime.groupby(['routeID', 'date', 'de
 
 allTravelTime = allTravelTime[allTravelTime['min_time_lookup']
                               == allTravelTime['time_lookup']]
-print(allTravelTime)
 
 
+allTravelTime = allTravelTime[['routeID', 'date', 'fromStop', 'toStop_x', 'departure_x',
+                               'arrival_x',	'actualTravelTimeMin', 'benchmarkTravelTime', 'departure_y', 'scheduledTravelTime']]
+
+
+allTravelTime = allTravelTime.rename(
+    columns={'toStopID_x': 'toStop', 'departure_x': 'departureActual', 'departure_y': 'departureScheduled'})
+
+allTravelTime['max_time_lookup'] = allTravelTime.groupby(['routeID', 'date', 'fromStop', 'departureActual'])[
+    'actualTravelTimeMin'].transform(max)
+
+allTravelTime = allTravelTime[allTravelTime['max_time_lookup']
+                              == allTravelTime['actualTravelTimeMin']]
+
+allTravelTime.reset_index(inplace=True)
+for w in range(len(allTravelTime)):
+    allTravelTime.loc[w, 'departureDelay'] = (datetime.strptime(
+        allTravelTime.loc[w, 'departureActual'], '%H:%M:%S') - datetime.strptime(allTravelTime.loc[w, 'departureScheduled'], '%H:%M:%S')).total_seconds()/60
+    allTravelTime.loc[w, 'transitDelay'] = allTravelTime.loc[w,
+                                                             'actualTravelTimeMin'] - allTravelTime.loc[w, 'benchmarkTravelTime']
+    allTravelTime.loc[w, 'totalDelay'] = allTravelTime.loc[w,
+                                                           'transitDelay'] + allTravelTime.loc[w, 'departureDelay']
 allTravelTime.to_csv(
     'C:/Users/nkukushkina/Documents/GitHub/MBTAAnalysis/allTravelTime.csv', index=False)
