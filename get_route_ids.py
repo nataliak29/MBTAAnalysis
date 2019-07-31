@@ -5,7 +5,7 @@ import os
 import sys
 import re
 
-# function gets name names,ids and first and last stop for all the routes of MBTA
+# function gets route_ids, route description and first and last stop for all the routes of MBTA
 # the function returns pandas table
 
 
