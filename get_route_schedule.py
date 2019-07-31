@@ -7,7 +7,7 @@ import urllib.request
 import urllib.parse
 
 
-def get_route_schedule(routeID, date, directionID=0, fromTime='05:00', toTime='23:00'):
+def get_route_schedule(routeID, date, directionID=0, fromTime='01:00', toTime='23:00'):
     # directionID =0 - outbound, directionID =1 - inbound,
     # access private api key
     with open('C:/Python37/MBTA/config.json') as json_data:

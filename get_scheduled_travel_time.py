@@ -12,7 +12,7 @@ from datetime import datetime, timedelta, date
 # directionID = 0
 
 
-def get_scheduled_travel_time(routeID, main_from_date, main_to_date, from_time, to_time, directionID):
+def get_scheduled_travel_time(routeID, main_from_date, main_to_date, from_time='01:00', to_time='23:00', directionID=0):
     schedule = pd.DataFrame(
         columns=['routeID',
                  'tripID',
@@ -21,7 +21,6 @@ def get_scheduled_travel_time(routeID, main_from_date, main_to_date, from_time, 
                  'stopSequence',
                  'arrivalTime',
                  'departureTime'])
-    print('Retreiving schedules for routes...')
 
     numberOfDays = int((datetime.strptime(main_to_date, "%Y-%m-%d") -
                         datetime.strptime(main_from_date, "%Y-%m-%d")).days)
