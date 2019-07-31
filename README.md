@@ -23,3 +23,5 @@ https://mbta.com/
 
 - Private API key for MBTA api v2 that have performance data:<br />
   https://performanceapi.mbta.com/portal <br /> The key has to be saved in config.json as "performance_key".
+
+For information about the project see [Wiki](https://github.com/nataliak29/MBTAAnalysis/wiki)
