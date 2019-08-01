@@ -23,7 +23,8 @@ def get_actual_travel_times(routeID, main_from_date, main_to_date, from_stop, to
 
     numberOfDays = int((datetime.strptime(main_to_date, dateFormat) -
                         datetime.strptime(main_from_date, dateFormat)).days)
-    print('Retreiving travel time data for', numberOfDays, 'days...')
+    print('Retreiving travel time data for',
+          numberOfDays, 'days for route', routeID, '...')
 
     for single_date in (datetime.strptime(main_from_date, dateFormat) + timedelta(n) for n in range(numberOfDays)):
         from_date_time = datetime.strptime(
@@ -47,7 +48,7 @@ def get_actual_travel_times(routeID, main_from_date, main_to_date, from_stop, to
         url = 'http://realtime.mbta.com/developer/api/v2.1/traveltimes?%s' % params
 
         with urllib.request.urlopen(url) as f:
-            # print(url)
+            print(url)
             data = f.read().decode('utf-8')
         js = json.loads(data)
         try:
@@ -77,17 +78,17 @@ def get_actual_travel_times(routeID, main_from_date, main_to_date, from_stop, to
     return traveltime
 
 
-#
-# main_from_date = '2019-07-23'
-# main_to_date = '2019-07-24'
-# from_time = '13:00:00'
-# to_time = '20:00:00'
-# fromStop = 'North Station'
-# toStop = 'Haverhill'
-# routeID = 'CR-Haverhill'
+# #
+# main_from_date = '2019-02-26'
+# main_to_date = '2019-02-27'
+# from_time = '01:00:00'
+# to_time = '23:00:00'
+# fromStop = 'South Station'
+# toStop = 'Ruggles'
+# routeID = 'CR-Providence'
 # # 'Haverhill'
 # js = get_actual_travel_times(routeID, main_from_date, main_to_date,
 #                              fromStop, toStop)
 # js.to_csv(
-#     'C:/Users/nkukushkina/Documents/GitHub/MBTAAnalysis/actualTraveltimeTest.csv', index=False)
+#     'C:/Users/nkukushkina/Documents/GitHub/MBTAAnalysis/Test.csv', index=False)
 # print(js)

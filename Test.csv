@@ -1,0 +1,8 @@
+routeID,date,fromStop,toStop,departure,arrival,actualTravelTimeMin,benchmarkTravelTime,delay
+CR-Providence,2019-02-26,South Station,Ruggles,06:32:11,06:41:48,9.616666666666667,8.0,1.6166666666666671
+CR-Providence,2019-02-26,South Station,Ruggles,11:27:08,11:34:36,7.466666666666667,8.0,-0.5333333333333332
+CR-Providence,2019-02-26,South Station,Ruggles,15:36:38,15:44:37,7.983333333333333,8.5,-0.5166666666666666
+CR-Providence,2019-02-26,South Station,Ruggles,15:57:01,16:04:31,7.5,9.0,-1.5
+CR-Providence,2019-02-26,South Station,Ruggles,16:55:54,17:05:52,9.966666666666667,9.0,0.9666666666666668
+CR-Providence,2019-02-26,South Station,Ruggles,19:32:18,19:41:17,8.983333333333333,8.0,0.9833333333333325
+CR-Providence,2019-02-26,South Station,Ruggles,21:33:22,22:49:28,76.1,8.0,68.1

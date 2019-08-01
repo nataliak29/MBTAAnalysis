@@ -15,8 +15,8 @@ main_to_date = now.strftime(dateFormat)
 main_from_date = str(datetime.strptime(
     main_to_date, dateFormat) - timedelta(7))[:10]
 directionID = 0
-actual_from_date = '2019-06-02'
-actual_to_date = '2019-06-10'
+actual_from_date = '2019-01-01'
+actual_to_date = '2019-08-01'
 
 
 scheduledTravelTime = pd.DataFrame(
