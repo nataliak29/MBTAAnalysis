@@ -48,7 +48,7 @@ def get_actual_travel_times(routeID, main_from_date, main_to_date, from_stop, to
         url = 'http://realtime.mbta.com/developer/api/v2.1/traveltimes?%s' % params
 
         with urllib.request.urlopen(url) as f:
-            print(url)
+            # print(url)
             data = f.read().decode('utf-8')
         js = json.loads(data)
         try:
@@ -78,14 +78,14 @@ def get_actual_travel_times(routeID, main_from_date, main_to_date, from_stop, to
     return traveltime
 
 
-# #
-# main_from_date = '2019-02-26'
-# main_to_date = '2019-02-27'
+#
+# main_from_date = '2019-08-01'
+# main_to_date = '2019-08-02'
 # from_time = '01:00:00'
 # to_time = '23:00:00'
 # fromStop = 'South Station'
-# toStop = 'Ruggles'
-# routeID = 'CR-Providence'
+# toStop = 'Readville'
+# routeID = 'CR-Fairmount'
 # # 'Haverhill'
 # js = get_actual_travel_times(routeID, main_from_date, main_to_date,
 #                              fromStop, toStop)

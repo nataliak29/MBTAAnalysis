@@ -39,7 +39,7 @@ def get_route_schedule(routeID, date, directionID=0, fromTime='01:00', toTime='2
     response = requests.get(url, headers=headers)
     data = response.text
     js = json.loads(data)
-
+    # loop through json file and save route schedule data into a dataframe
     for i in range(len(js['data'])):
 
         routeID = js['data'][i]['relationships']['route']['data']['id']
@@ -59,7 +59,7 @@ def get_route_schedule(routeID, date, directionID=0, fromTime='01:00', toTime='2
             departureTime
 
         ])
-
+    # output the dataframe
     return tripSchedule
 
 
