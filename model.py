@@ -5,6 +5,7 @@ import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
 
 data = clean_travel_times()
+print(data)
 data = data.drop(['actualTravelTimeMin', 'delay'], axis=1)
 print(data)
 yVar = data.loc[:, 'delay_label']
@@ -24,5 +25,5 @@ preds = clf.predict(X_test)
 print(pd.crosstab(y_test, preds, rownames=[
       'Actual Result'], colnames=['Predicted Result']))
 print(list(zip(X_train, clf.feature_importances_)))
-# data.to_csv(
-#     'C:/Users/nkukushkina/Documents/GitHub/MBTAAnalysis/data3.csv', index=False)
+data.to_csv(
+    'C:/Users/nkukushkina/Documents/GitHub/MBTAAnalysis/data3.csv', index=False)
