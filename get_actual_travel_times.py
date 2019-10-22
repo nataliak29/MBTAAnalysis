@@ -78,17 +78,16 @@ def get_actual_travel_times(routeID, main_from_date, main_to_date, from_stop, to
     return traveltime
 
 
-#
-# main_from_date = '2019-08-01'
-# main_to_date = '2019-08-02'
-# from_time = '01:00:00'
-# to_time = '23:00:00'
-# fromStop = 'South Station'
-# toStop = 'Readville'
-# routeID = 'CR-Fairmount'
-# # 'Haverhill'
-# js = get_actual_travel_times(routeID, main_from_date, main_to_date,
-#                              fromStop, toStop)
+main_from_date = '2019-08-01'
+main_to_date = '2019-09-10'
+from_time = '01:00:00'
+to_time = '23:00:00'
+fromStop = 'South Station'
+toStop = 'Readville'
+routeID = 'CR-Fairmount'
+# 'Haverhill'
+js = get_actual_travel_times(routeID, main_from_date, main_to_date,
+                             fromStop, toStop)
 # js.to_csv(
 #     'C:/Users/nkukushkina/Documents/GitHub/MBTAAnalysis/Test.csv', index=False)
-# print(js)
+print(js)
